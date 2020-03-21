@@ -1,0 +1,32 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+# - script: sudo gem install fastlane -NV
+#   displayName: 'Install fastlane'
+
+# - script: |
+#     cd android
+#     sudo chmod -R 777 $(Agent.BuildDirectory)
+#     sudo fastlane beta
+#   displayName: 'Build android'
+
+- script: |
+   sudo chmod -R 777 $(Agent.BuildDirectory)
+   npm install
+   cd android
+   ./gradlew assembleRelease
+  displayName: 'Build apk'
+
+
+- task: CopyFiles@2
+  inputs:
+    contents: '**/*.apk'
+    targetFolder: '$(build.artifactStagingDirectory)'
+- task: PublishBuildArtifacts@1
