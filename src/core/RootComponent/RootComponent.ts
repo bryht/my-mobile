@@ -1,6 +1,4 @@
 import { Action } from "redux";
-import { SystemActions } from "../../components/System/SystemActions";
-import { UserState } from "core/Models/UserState";
 import { UserEntity } from "core/Models/UserEntity";
 import Authentication from "core/Authentication ";
 import { IHttpRequest } from "core/Models/IHttpRequest";

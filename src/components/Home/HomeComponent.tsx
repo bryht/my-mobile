@@ -16,35 +16,45 @@ export interface HomeProps extends BasicProps {
 
 export interface HomeState extends BasicState {
     loadingState: boolean
-    data: any
+    result: any
 }
 
 
 class HomeComponent extends RootComponent<HomeProps, HomeState> {
     constructor(props: HomeProps) {
         super(props);
-        this.state = { loadingState: true, data: [] }
+        this.state = { loadingState: true, result: {} }
+    }
+
+    componentDidMount(){
+        this.refresh();
     }
     async refresh() {
 
         this.setState({ loadingState: true });
-        let notifications = await this.invokeAsync(HomeActions.GetData());
-        this.setState({ loadingState: false });
-        Log.Debug(notifications);
+        let result = await this.invokeAsync(HomeActions.GetData());
+        this.setState({ loadingState: false, result });
     }
 
 
     public render() {
-        const { loadingState, data } = this.state;
+        const { loadingState, result } = this.state;
 
         return (
             <View>
-                <Text>welcome to home!</Text>
-                <Button title='get-data' onPress={() => this.refresh()}></Button>
+                <Text>Virus!</Text>
+                <Button title='refresh data' onPress={() => this.refresh()}></Button>
                 {
                     loadingState ? <Text>Loading</Text> :
-                        <FlatList data={data}
-                            renderItem={({ item }) => <Text >{item.ret}</Text>}
+                        <FlatList data={result.data}
+                            renderItem={({ item }) =>
+                                <>
+                                    <Text>{item.date}</Text>
+                                    <Text>{item.confirm}</Text>
+                                    <Text>{item.heal}</Text>
+                                    <Text>{item.dead}</Text>
+                                </>
+                            }
                         />
                 }
             </View>
