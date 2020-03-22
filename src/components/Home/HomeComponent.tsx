@@ -26,7 +26,7 @@ class HomeComponent extends RootComponent<HomeProps, HomeState> {
         this.state = { loadingState: true, result: {} }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.refresh();
     }
     async refresh() {
@@ -47,6 +47,7 @@ class HomeComponent extends RootComponent<HomeProps, HomeState> {
                 {
                     loadingState ? <Text>Loading</Text> :
                         <FlatList data={result.data}
+                            keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) =>
                                 <>
                                     <Text>{item.date}</Text>

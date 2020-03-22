@@ -28,5 +28,16 @@ steps:
 - task: CopyFiles@2
   inputs:
     contents: '**/*.apk'
-    targetFolder: '$(build.artifactStagingDirectory)'
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
+
+
+- task: GithubRelease@0 
+  displayName: 'GitHub Release'      
+  inputs:
+    gitHubConnection: bryht
+    repositoryName: bryht/my-mobile
+    tagSource: auto
+    tag: $(Build.BuildNumber)      
+    assets: |
+         $(Build.ArtifactStagingDirectory)/*.apk
