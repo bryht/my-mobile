@@ -36,8 +36,6 @@ steps:
   displayName: 'GitHub Release'      
   inputs:
     gitHubConnection: bryht
-    repositoryName: bryht/my-mobile
-    tagSource: auto
-    tag: $(Build.BuildNumber)      
+    repositoryName: bryht/my-mobile     
     assets: |
          $(Build.ArtifactStagingDirectory)/*.apk
