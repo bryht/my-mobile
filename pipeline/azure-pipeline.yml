@@ -48,6 +48,8 @@ steps:
     target: '$(Build.SourceVersion)'
     tagSource: 'userSpecifiedTag'
     tag: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
-    assets: $(Build.ArtifactStagingDirectory)/*.apk
+    assets: |
+         $(Build.ArtifactStagingDirectory)/*.apk
+         $(Build.ArtifactStagingDirectory)/README.txt
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
