@@ -5,7 +5,11 @@
 
 pool:
   vmImage: 'ubuntu-latest'
-  
+variables:
+  MajorVersion: 1
+  MinorVersion: 0
+  InitialReleaseTagNumber: 1
+  IncrementReleaseTagNumber: $[counter(variables['InitialReleaseTagNumber'], 0)]  
 steps:
 
 # - script: sudo gem install fastlane -NV
@@ -38,6 +42,7 @@ steps:
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'userSpecifiedTag'
-    tag: 'v$(MajorVersion).$(MinorVersion).$(PatchVersion)'
+    tag: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
+    assets: $(Build.ArtifactStagingDirectory)/*.apk
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
