@@ -36,6 +36,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     contents: '**/*.apk'
+    flattenFolders: true
     targetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
 
