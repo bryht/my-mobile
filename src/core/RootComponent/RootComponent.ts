@@ -14,9 +14,9 @@ export class RootComponent<Props extends BasicProps, States extends BasicState |
         super(props);
     }
 
-    async invokeAsync(request: IHttpRequest): Promise<any> {
+    async invokeAsync<T>(request: IHttpRequest): Promise<T> {
 
-        return HttpHelper.RequestAsync(request);
+        return HttpHelper.RequestAsync<T>(request);
     }
 
     async invokeAsyncWithAuth(request: IHttpRequest): Promise<any> {

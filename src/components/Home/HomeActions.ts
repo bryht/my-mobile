@@ -10,7 +10,6 @@ export class HomeActions {
             method: 'GET',
             url: 'query/pubished/daily/list?country=意大利',
             body: '',
-            result: ''
         };
     }
 

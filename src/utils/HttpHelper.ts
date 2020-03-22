@@ -2,7 +2,7 @@ import Log from "./Log";
 import Env from "config/env";
 import { IHttpRequest } from "../core/Models/IHttpRequest";
 
-export default class HttpHelper {
+export default class HttpHelper<T> {
     constructor() {
 
     }
@@ -15,8 +15,9 @@ export default class HttpHelper {
 
                 if (request.readyState === 4 && request.status === 200) {
 
-                    action.result = JSON.parse(request.response);
-                    return resolve(action.result);
+                    // let result = {};
+                    // Object.assign(result, JSON.parse(request.response));
+                    return resolve(JSON.parse(request.response) as T);
 
                 } else {
                     Log.Info(request.status + request.responseText);

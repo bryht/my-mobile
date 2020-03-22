@@ -5,51 +5,39 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SettingComponent } from 'components/Setting/SettingComponent';
 import VirusComponent from 'components/Virus/VirusComponent';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
-const HomeScreen = () => {
-    const Tab = createBottomTabNavigator();
+export interface HomeScreenProps {
+}
+export default class HomeScreen extends React.Component<HomeScreenProps, any> {
+    constructor(props: HomeScreenProps) {
+        super(props);
+    }
 
-    return (
-        <View style={styles.container}>
-            <NavigationContainer>
-                <Tab.Navigator>
-                    <Tab.Screen name="Virus"
-                        component={VirusComponent}
-                        options={{
-                            tabBarIcon: ({ focused, color, size }) => {
-                                return <Icon name="globe" size={size} color={color} />;
-                            },
-                        }}
-                    />
-                    <Tab.Screen name="Home" component={HomeComponent}
-                        options={{
-                            tabBarIcon: ({ focused, color, size }) => {
-                                return <Icon name="home"  size={size} color={color} />;
-                            },
-                        }}
-                    />
-                    <Tab.Screen name="Settings" component={SettingComponent}
-                        options={{
-                            tabBarIcon: ({ focused, color, size }) => {
-                                return <Icon name="gear" size={size} color={color} />;
-                            },
-                        }}
+    setIcon(iconName: string) {
+        return {
+            tabBarIcon: ({ color, size }) => {
+                return <Icon name={iconName} size={size} color={color} />;
+            },
+        }
+    }
 
-                    />
-                </Tab.Navigator>
-            </NavigationContainer>
-        </View>
-    );
-};
-
-// options={
-//     {
-//         tabBarIcon: ({ focused, color, size }) => <Ionicons name="md-checkmate-circle" size={32} color="green" />
-//     }
-//}
-export default HomeScreen;
+    public render() {
+        const Tab = createBottomTabNavigator();
+        return (
+            <View style={styles.container}>
+                <NavigationContainer>
+                    <Tab.Navigator>
+                        <Tab.Screen name="Virus" component={VirusComponent} options={this.setIcon("globe")} />
+                        <Tab.Screen name="Home" component={HomeComponent} options={this.setIcon("home")} />
+                        <Tab.Screen name="Settings" component={SettingComponent} options={this.setIcon("gear")} />
+                    </Tab.Navigator>
+                </NavigationContainer>
+            </View>
+        );
+    }
+}
 
 const styles = StyleSheet.create({
     container: {

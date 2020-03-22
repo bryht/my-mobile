@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, Button, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-import { VirusActions } from './VirusActions';
+import { VirusActions, VirusResult, VirusResultItem } from './VirusActions';
 import { RootState } from 'redux/Store';
 import Log from 'utils/Log';
 import { RootComponent, mapRootStateToProps } from 'core/RootComponent/RootComponent';
@@ -14,14 +14,14 @@ export interface VirusProps extends BasicProps {
 
 export interface VirusState extends BasicState {
     loadingState: boolean
-    result: any
+    italyResult: VirusResultItem[]
+    netherlandResult: VirusResultItem[]
 }
-
 
 class VirusComponent extends RootComponent<VirusProps, VirusState> {
     constructor(props: VirusProps) {
         super(props);
-        this.state = { loadingState: true, result: {} }
+        this.state = { loadingState: true, italyResult: [], netherlandResult:[] }
     }
 
     componentDidMount() {
@@ -30,13 +30,14 @@ class VirusComponent extends RootComponent<VirusProps, VirusState> {
     async refresh() {
 
         this.setState({ loadingState: true });
-        let result = await this.invokeAsync(VirusActions.GetData());
-        this.setState({ loadingState: false, result });
+        let it = await this.invokeAsync<VirusResult>(VirusActions.GetItalyData());
+        let nl = await this.invokeAsync<VirusResult>(VirusActions.GetNetherlandData());
+        this.setState({ loadingState: false, italyResult:it.data,netherlandResult:nl.data});
     }
 
 
     public render() {
-        const { loadingState, result } = this.state;
+        const { loadingState, italyResult } = this.state;
 
         return (
             <View>
@@ -44,7 +45,7 @@ class VirusComponent extends RootComponent<VirusProps, VirusState> {
                 <Button title='refresh data' onPress={() => this.refresh()}></Button>
                 {
                     loadingState ? <Text>Loading</Text> :
-                        <FlatList data={result.data}
+                        <FlatList data={italyResult}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) =>
                                 <>
