@@ -5,6 +5,10 @@
 
 pool:
   vmImage: 'ubuntu-latest'
+trigger:
+- master
+- dev
+
 variables:
   MajorVersion: 1
   MinorVersion: 0
@@ -36,6 +40,7 @@ steps:
 - task: PublishBuildArtifacts@1
 
 - task: GitHubRelease@1
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   inputs:
     gitHubConnection: 'bryht'
     repositoryName: '$(Build.Repository.Name)'
