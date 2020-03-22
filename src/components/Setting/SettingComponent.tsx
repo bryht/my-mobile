@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { RootState } from 'redux/Store';
+import { connect } from 'react-redux';
 
 export interface SettingProps {
 }
@@ -8,7 +9,7 @@ export interface SettingProps {
 export interface SettingState {
 }
 
-export default class SettingComponent extends React.Component<SettingProps, SettingState> {
+export class SettingComponent extends React.Component<SettingProps, SettingState> {
     constructor(props: SettingProps) {
         super(props);
         this.state = {
@@ -27,3 +28,6 @@ export default class SettingComponent extends React.Component<SettingProps, Sett
 const mapStateToProps = (state: RootState) => ({
     userObj: state.system.currentUser
 });
+
+
+export default connect()(SettingComponent)
