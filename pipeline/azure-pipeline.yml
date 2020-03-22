@@ -50,7 +50,7 @@ steps:
     tagSource: 'userSpecifiedTag'
     tag: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
     assets: |
-         $(Build.ArtifactStagingDirectory)/*.apk
+         $(Build.ArtifactStagingDirectory)/**/*.apk
          $(Build.ArtifactStagingDirectory)/README.txt
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
