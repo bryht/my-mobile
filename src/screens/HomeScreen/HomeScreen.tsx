@@ -28,7 +28,7 @@ export default class HomeScreen extends React.Component<HomeScreenProps, any> {
         return (
             <View style={styles.container}>
                 <NavigationContainer>
-                    <Tab.Navigator>
+                    <Tab.Navigator backBehavior='none'>
                         <Tab.Screen name="Virus" component={VirusComponent} options={this.setIcon("globe")} />
                         <Tab.Screen name="Home" component={HomeComponent} options={this.setIcon("home")} />
                         <Tab.Screen name="Settings" component={SettingComponent} options={this.setIcon("gear")} />

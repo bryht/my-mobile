@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Button, FlatList } from 'react-native';
+import { View, Text, Button, FlatList, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
 import { VirusActions, VirusResult, VirusResultItem } from './VirusActions';
 import { RootState } from 'redux/Store';
@@ -13,7 +13,7 @@ export interface VirusProps extends BasicProps {
 }
 
 export interface VirusState extends BasicState {
-    loadingState: boolean
+    refreshing: boolean
     italyResult: VirusResultItem[]
     netherlandResult: VirusResultItem[]
 }
@@ -21,7 +21,7 @@ export interface VirusState extends BasicState {
 class VirusComponent extends RootComponent<VirusProps, VirusState> {
     constructor(props: VirusProps) {
         super(props);
-        this.state = { loadingState: true, italyResult: [], netherlandResult:[] }
+        this.state = { refreshing: true, italyResult: [], netherlandResult: [] }
     }
 
     componentDidMount() {
@@ -29,34 +29,40 @@ class VirusComponent extends RootComponent<VirusProps, VirusState> {
     }
     async refresh() {
 
-        this.setState({ loadingState: true });
+        this.setState({ refreshing: true });
         let it = await this.invokeAsync<VirusResult>(VirusActions.GetItalyData());
+        let itData=it.data.reverse().slice(0,5);
         let nl = await this.invokeAsync<VirusResult>(VirusActions.GetNetherlandData());
-        this.setState({ loadingState: false, italyResult:it.data,netherlandResult:nl.data});
+        this.setState({ refreshing: false, italyResult: itData, netherlandResult: nl.data });
     }
 
 
     public render() {
-        const { loadingState, italyResult } = this.state;
+        const { refreshing, italyResult } = this.state;
 
         return (
             <View>
                 <Text>Virus!</Text>
-                <Button title='refresh data' onPress={() => this.refresh()}></Button>
-                {
-                    loadingState ? <Text>Loading</Text> :
-                        <FlatList data={italyResult}
-                            keyExtractor={(item, index) => index.toString()}
-                            renderItem={({ item }) =>
-                                <>
-                                    <Text>{item.date}</Text>
-                                    <Text>{item.confirm}</Text>
-                                    <Text>{item.heal}</Text>
-                                    <Text>{item.dead}</Text>
-                                </>
-                            }
+                <FlatList data={italyResult}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={() => this.refresh()}
+                            tintColor='blue'
                         />
-                }
+                    }
+                    refreshing={refreshing}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({ item }) =>
+                        <>
+                            <Text>{item.date}</Text>
+                            <Text>{item.confirm}</Text>
+                            <Text>{item.heal}</Text>
+                            <Text>{item.dead}</Text>
+                        </>
+                    }
+                />
+
             </View>
         );
     }
