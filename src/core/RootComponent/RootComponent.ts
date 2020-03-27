@@ -6,7 +6,7 @@ import React from "react";
 import { BasicState } from "./BasicState";
 import { BasicProps } from "./BasicProps";
 import { RootState } from "redux/Store";
-import HttpHelper from "utils/HttpHelper";
+import HttpRequestHelper from "utils/HttpRequest/HttpRequestHelper";
 
 
 export class RootComponent<Props extends BasicProps, States extends BasicState | any> extends React.Component<Props, States>{
@@ -16,7 +16,7 @@ export class RootComponent<Props extends BasicProps, States extends BasicState |
 
     async invokeAsync<T>(request: IHttpRequest): Promise<T> {
 
-        return HttpHelper.RequestAsync<T>(request);
+        return HttpRequestHelper.RequestAsync<T>(request);
     }
 
     async invokeAsyncWithAuth(request: IHttpRequest): Promise<any> {
@@ -25,7 +25,7 @@ export class RootComponent<Props extends BasicProps, States extends BasicState |
 
         await Authentication.checkAuthenticationAsync(dispatch, currentUser as UserEntity);
 
-        return HttpHelper.RequestAsync(request);
+        return HttpRequestHelper.RequestAsync(request,currentUser?.accessToken);
     }
 
     invokeDispatch(action: Action) {

@@ -1,16 +1,11 @@
 import Log from "utils/Log";
-import { IHttpRequest } from "core/Models/IHttpRequest";
-
-
+import HttpRequestHelper from "utils/HttpRequest/HttpRequestHelper";
+import { IHttpRequest } from "utils/HttpRequest/IHttpRequest";
 export class HomeActions {
 
     static GetData(): IHttpRequest {
 
-        return {
-            method: 'GET',
-            url: 'query/pubished/daily/list?country=意大利',
-            body: '',
-        };
+        return HttpRequestHelper.CrateRequest('query/pubished/daily/list?country=意大利');
     }
 
 }

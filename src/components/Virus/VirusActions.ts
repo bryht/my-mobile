@@ -1,6 +1,6 @@
 import Log from "utils/Log";
-import { IHttpRequest } from "core/Models/IHttpRequest";
-
+import { IHttpRequest } from "utils/HttpRequest/IHttpRequest";
+import HttpRequestHelper from "utils/HttpRequest/HttpRequestHelper";
 export interface VirusResult {
     ret:  number;
     info: string;
@@ -20,21 +20,11 @@ export interface VirusResultItem {
 export class VirusActions {
 
     static GetItalyData(): IHttpRequest {
-
-        return {
-            method: 'GET',
-            url: 'query/pubished/daily/list?country=意大利',
-            body: '',
-        };
+        return HttpRequestHelper.CrateRequest('query/pubished/daily/list?country=意大利');
     }
 
     static GetNetherlandData(): IHttpRequest {
-
-        return {
-            method: 'GET',
-            url: 'query/pubished/daily/list?country=荷兰',
-            body: '',
-        };
+        return HttpRequestHelper.CrateRequest('query/pubished/daily/list?country=荷兰');
     }
 
 }

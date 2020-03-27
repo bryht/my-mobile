@@ -1,7 +1,7 @@
 import { Middleware } from "redux";
 import { saveItemAsync, removeItemAsync } from "../../utils/Storage";
 import { StorageType } from "core/Models/StorageType";
-import Consts from "redux/Consts";
+import Consts from "core/Consts";
 
 
 export const StorageMiddleware: Middleware = api => next => action => {

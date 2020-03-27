@@ -1,4 +1,4 @@
-import Consts from "redux/Consts";
+import Consts from "core/Consts";
 import Log from "utils/Log";
 
 export default class LocalizationManager {
