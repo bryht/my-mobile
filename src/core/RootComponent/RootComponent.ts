@@ -1,12 +1,12 @@
 import { Action } from "redux";
 import { UserEntity } from "core/Models/UserEntity";
 import Authentication from "core/Authentication ";
-import { IHttpRequest } from "core/Models/IHttpRequest";
 import React from "react";
 import { BasicState } from "./BasicState";
 import { BasicProps } from "./BasicProps";
 import { RootState } from "redux/Store";
 import HttpRequestHelper from "utils/HttpRequest/HttpRequestHelper";
+import { IHttpRequest } from "utils/HttpRequest/IHttpRequest";
 
 
 export class RootComponent<Props extends BasicProps, States extends BasicState | any> extends React.Component<Props, States>{
