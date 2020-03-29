@@ -2,29 +2,35 @@ import Log from "utils/Log";
 import { IHttpRequest } from "utils/HttpRequest/IHttpRequest";
 import HttpRequestHelper from "utils/HttpRequest/HttpRequestHelper";
 export interface VirusResult {
-    ret:  number;
+    ret: number;
     info: string;
     data: VirusResultItem[];
 }
 
 export interface VirusResultItem {
-    date:       string;
+    name: string;
+    continent: string;
+    date: string;
+    isUpdated: boolean;
     confirmAdd: number;
-    confirm:    number;
-    heal:       number;
-    dead:       number;
-    suspect:    number;
+    confirmAddCut: number;
+    confirm: number;
+    suspect: number;
+    dead: number;
+    heal: number;
+    nowConfirm: number;
+    confirmCompare: number;
+    nowConfirmCompare: number;
+    healCompare: number;
+    deadCompare: number;
 }
 
 
 export class VirusActions {
 
-    static GetItalyData(): IHttpRequest {
-        return HttpRequestHelper.CrateRequest('query/pubished/daily/list?country=意大利');
-    }
-
-    static GetNetherlandData(): IHttpRequest {
-        return HttpRequestHelper.CrateRequest('query/pubished/daily/list?country=荷兰');
+    //generate class http://json2ts.com/
+    static GetRankingList(): IHttpRequest {
+        return HttpRequestHelper.CrateRequest('automation/foreign/country/ranklist', null, 'POST');
     }
 
 }
