@@ -63,7 +63,7 @@ class VirusComponent extends RootComponent<VirusProps, VirusState> {
         const { populationData } = this.state;
         let country = populationData.filter(p => p.name == item.name)[0];
         if (country) {
-            return ((item.nowConfirm + item.heal + item.dead) / country.population * 1000000).toFixed(0);
+            return ((item.nowConfirm + item.heal + item.dead) / country.population * 1000).toFixed(2);
         } else {
             return 0;
         }
@@ -99,7 +99,7 @@ class VirusComponent extends RootComponent<VirusProps, VirusState> {
                             <View style={styles.rankingListItemRow}>
                                 <Text style={{ ...styles.normalFontSize }}>{item.name}</Text>
                                 <Text style={{ ...styles.smallFontSize }}>({item.continent})</Text>
-                                <Text style={{ ...styles.smallFontSize,...styles.textMargin,color:'purple' }}>{this.infectRateForPopulation(item) + "‰‰"} </Text>
+                                <Text style={{ ...styles.smallFontSize,...styles.textMargin,color:'purple' }}>{this.infectRateForPopulation(item) + "‰"} </Text>
                                 <View style={{ marginLeft: "auto", flexDirection: "row" }}>
                                     <Text style={{ ...styles.normalFontSize }} >{item.nowConfirm} </Text>
                                     <Text style={{ ...styles.smallFontSize, color: "red" }}> +{item.confirmCompare}</Text>
