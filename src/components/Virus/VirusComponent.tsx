@@ -17,13 +17,33 @@ export interface VirusProps extends BasicProps {
 export interface VirusState extends BasicState {
     refreshing: boolean
     virusRankingResult: VirusResultItem[]
+    populationData: any[]
 }
 
 class VirusComponent extends RootComponent<VirusProps, VirusState> {
     constructor(props: VirusProps) {
         super(props);
-        this.state = { refreshing: true, virusRankingResult: [] }
+        this.state = {
+            refreshing: true,
+            virusRankingResult: [],
+            populationData: [
+                { name: '美国', population: 327167434 },
+                { name: '荷兰', population: 17231017 },
+                { name: '意大利', population: 60431283 },
+                { name: '西班牙', population: 46723749 },
+                { name: '德国', population: 82927922 },
+                { name: '伊朗', population: 81800269 },
+                { name: '法国', population: 66987244 },
+                { name: '瑞士', population: 8516543 },
+                { name: '比利时', population: 11422068 },
+                { name: '奥地利', population: 8847037 },
+                { name: '澳大利亚', population: 24992369 },
+                { name: '新西兰', population: 4885500 },
+                { name: '英国', population: 66488991 },
+            ]
+        }
     }
+
 
     componentDidMount() {
         this.refresh();
@@ -39,24 +59,19 @@ class VirusComponent extends RootComponent<VirusProps, VirusState> {
         return (item.dead / (item.nowConfirm + item.heal + item.dead) * 100).toFixed(1);
     }
 
-    deadRateForPolulation(item: VirusResultItem) {
+    infectRateForPopulation(item: VirusResultItem) {
+        const { populationData } = this.state;
+        let country = populationData.filter(p => p.name == item.name)[0];
+        if (country) {
+            return ((item.nowConfirm + item.heal + item.dead) / country.population * 1000000).toFixed(0);
+        } else {
+            return 0;
+        }
+    }
 
-        let data = [
-            { name: '美国', population: 327167434 },
-            { name: '荷兰', population: 17231017 },
-            { name: '意大利', population: 60431283 },
-            { name: '西班牙', population: 46723749 },
-            { name: '德国', population: 82927922 },
-            { name: '伊朗', population: 81800269 },
-            { name: '法国', population: 66987244 },
-            { name: '瑞士', population: 8516543 },
-            { name: '比利时', population: 11422068 },
-            { name: '奥地利', population: 8847037 },
-            { name: '澳大利亚', population: 24992369 },
-            { name: '新西兰', population: 4885500 },
-            { name: '英国', population: 66488991 },
-        ];
-        let country = data.filter(p => p.name == item.name)[0];
+    deadRateForPolulation(item: VirusResultItem) {
+        const { populationData } = this.state;
+        let country = populationData.filter(p => p.name == item.name)[0];
         if (country) {
             return (item.dead / country.population * 1000000).toFixed(2);
         } else {
@@ -83,7 +98,8 @@ class VirusComponent extends RootComponent<VirusProps, VirusState> {
                         <View style={styles.rankingListItem}>
                             <View style={styles.rankingListItemRow}>
                                 <Text style={{ ...styles.normalFontSize }}>{item.name}</Text>
-                                <Text style={{ ...styles.smallFontSize }}>({item.continent}) </Text>
+                                <Text style={{ ...styles.smallFontSize }}>({item.continent})</Text>
+                                <Text style={{ ...styles.smallFontSize,...styles.textMargin,color:'purple' }}>{this.infectRateForPopulation(item) + "‰‰"} </Text>
                                 <View style={{ marginLeft: "auto", flexDirection: "row" }}>
                                     <Text style={{ ...styles.normalFontSize }} >{item.nowConfirm} </Text>
                                     <Text style={{ ...styles.smallFontSize, color: "red" }}> +{item.confirmCompare}</Text>
